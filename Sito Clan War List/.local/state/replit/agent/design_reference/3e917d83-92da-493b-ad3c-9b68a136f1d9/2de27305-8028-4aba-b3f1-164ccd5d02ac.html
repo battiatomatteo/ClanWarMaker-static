@@ -1,0 +1,705 @@
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWL Manager - Clash of Clans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'clash-blue': '#3B82F6',
+                        'clash-gold': '#F59E0B',
+                        'clash-green': '#10B981',
+                        'clash-dark': '#1F2937',
+                        'clash-gray': '#374151'
+                    },
+                    fontFamily: {
+                        'clash': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-clash">
+    <!-- @COMPONENT: Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-shield-alt text-clash-blue text-2xl mr-3"></i>
+                        <span class="text-xl font-bold text-clash-dark">CWL Manager</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button data-event="click:switchTab" data-tab="home" class="tab-btn active px-4 py-2 text-sm font-medium text-clash-blue border-b-2 border-clash-blue">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </button>
+                    <button data-event="click:switchTab" data-tab="register" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-clash-blue">
+                        <i class="fas fa-user-plus mr-2"></i>Registrazione
+                    </button>
+                    <button data-event="click:switchTab" data-tab="admin" class="tab-btn px-4 py-2 text-sm font-medium text-gray-500 hover:text-clash-blue">
+                        <i class="fas fa-cog mr-2"></i>Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: MainContent -->
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        
+        <!-- @COMPONENT: HomeTab -->
+        <div id="home-tab" class="tab-content">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Hero Section -->
+                <div class="lg:col-span-2">
+                    <!-- Clan banner with clash of clans themed background -->
+                    <div class="relative rounded-xl overflow-hidden mb-8" style="background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);">
+                        <div class="px-8 py-12 text-white">
+                            <h1 class="text-4xl font-bold mb-4" data-bind="clan.name" data-mock="true">
+                                🏰 Guerrieri del Nord
+                            </h1>
+                            <p class="text-xl mb-6 opacity-90" data-bind="clan.description" data-mock="true">
+                                Clan competitivo italiano specializzato nelle Clan War League. 
+                                Unisciti a noi per conquistare la gloria!
+                            </p>
+                            <div class="flex items-center space-x-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-users text-clash-gold mr-2"></i>
+                                    <span data-bind="clan.memberCount" data-mock="true">47/50 Membri</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-trophy text-clash-gold mr-2"></i>
+                                    <span data-bind="clan.trophies" data-mock="true">52,340 Trofei</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clan Stats Cards -->
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-clash-dark mb-2">CWL Attuale</h3>
+                                    <p class="text-3xl font-bold text-clash-blue" data-bind="cwl.league" data-mock="true">Crystal I</p>
+                                    <p class="text-sm text-gray-600" data-bind="cwl.status" data-mock="true">Giorno 5/7 - In corso</p>
+                                </div>
+                                <div class="text-right">
+                                    <i class="fas fa-medal text-clash-gold text-3xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-clash-dark mb-2">Vittorie CWL</h3>
+                                    <p class="text-3xl font-bold text-clash-green" data-bind="cwl.wins" data-mock="true">4/6</p>
+                                    <p class="text-sm text-gray-600">Questa stagione</p>
+                                </div>
+                                <div class="text-right">
+                                    <i class="fas fa-crown text-clash-gold text-3xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clan Rules -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border">
+                        <h3 class="text-xl font-bold text-clash-dark mb-4">
+                            <i class="fas fa-scroll text-clash-blue mr-2"></i>
+                            Regole del Clan
+                        </h3>
+                        <div class="space-y-3" data-bind="clan.rules" data-mock="true">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-clash-green mr-3 mt-1"></i>
+                                <p class="text-gray-700">Partecipazione obbligatoria alle CWL</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-clash-green mr-3 mt-1"></i>
+                                <p class="text-gray-700">Donazioni minime: 1000 al mese</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-clash-green mr-3 mt-1"></i>
+                                <p class="text-gray-700">Rispetto e comunicazione nel chat clan</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-clash-green mr-3 mt-1"></i>
+                                <p class="text-gray-700">TH12+ per partecipare alle CWL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Stats -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border">
+                        <h3 class="text-lg font-bold text-clash-dark mb-4">Statistiche Rapide</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Iscritti CWL:</span>
+                                <span class="font-semibold text-clash-blue" data-bind="stats.registeredPlayers" data-mock="true">28</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Media TH:</span>
+                                <span class="font-semibold text-clash-blue" data-bind="stats.avgTownHall" data-mock="true">13.2</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Win Rate:</span>
+                                <span class="font-semibold text-clash-green" data-bind="stats.winRate" data-mock="true">67%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border">
+                        <h3 class="text-lg font-bold text-clash-dark mb-4">Attività Recente</h3>
+                        <div class="space-y-3" data-mock="true">
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-user-plus text-clash-green mr-2"></i>
+                                <span class="text-gray-600">Marco si è registrato</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-sword text-clash-blue mr-2"></i>
+                                <span class="text-gray-600">Attacco CWL completato</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-trophy text-clash-gold mr-2"></i>
+                                <span class="text-gray-600">Guerra vinta!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Registration -->
+                    <div class="bg-gradient-to-r from-clash-blue to-clash-gold rounded-lg p-6 text-white text-center">
+                        <h3 class="text-lg font-bold mb-2">Unisciti alle CWL!</h3>
+                        <p class="text-sm mb-4 opacity-90">Registrati ora per partecipare alle prossime Clan War League</p>
+                        <button data-event="click:switchTab" data-tab="register" class="bg-white text-clash-blue px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            Registrati Ora
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: HomeTab -->
+
+        <!-- @COMPONENT: RegistrationTab -->
+        <div id="register-tab" class="tab-content hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-lg shadow-sm p-8 border">
+                    <div class="text-center mb-8">
+                        <i class="fas fa-user-plus text-clash-blue text-4xl mb-4"></i>
+                        <h2 class="text-3xl font-bold text-clash-dark mb-2">Registrazione CWL</h2>
+                        <p class="text-gray-600">Compila il form per registrarti alle prossime Clan War League</p>
+                    </div>
+
+                    <form data-event="submit:handleRegistration" class="space-y-6">
+                        <!-- Player Name -->
+                        <div>
+                            <label for="playerName" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-user mr-2 text-clash-blue"></i>
+                                Nome Player
+                            </label>
+                            <input 
+                                type="text" 
+                                id="playerName" 
+                                name="nomePlayer"
+                                data-bind="form.playerName"
+                                data-implementation="Required field with validation"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent transition-colors" 
+                                placeholder="Inserisci il tuo nome in game"
+                                required
+                            >
+                            <p class="text-xs text-gray-500 mt-1">Usa esattamente il nome che hai in Clash of Clans</p>
+                        </div>
+
+                        <!-- Town Hall Level -->
+                        <div>
+                            <label for="townHall" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-home mr-2 text-clash-blue"></i>
+                                Livello Town Hall
+                            </label>
+                            <select 
+                                id="townHall" 
+                                name="thPlayer"
+                                data-bind="form.townHall"
+                                data-implementation="Dropdown with TH levels"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent transition-colors"
+                                required
+                            >
+                                <option value="">Seleziona il tuo TH</option>
+                                <option value="12">Town Hall 12</option>
+                                <option value="13">Town Hall 13</option>
+                                <option value="14">Town Hall 14</option>
+                                <option value="15">Town Hall 15</option>
+                                <option value="16">Town Hall 16</option>
+                                <option value="17">Town Hall 17</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Minimo TH12 per partecipare alle CWL</p>
+                        </div>
+
+                        <!-- Player Tag (Optional) -->
+                        <div>
+                            <label for="playerTag" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-tag mr-2 text-clash-blue"></i>
+                                Tag Player (Opzionale)
+                            </label>
+                            <input 
+                                type="text" 
+                                id="playerTag" 
+                                name="playerTag"
+                                data-bind="form.playerTag"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent transition-colors" 
+                                placeholder="#XXXXXXXXX"
+                            >
+                            <p class="text-xs text-gray-500 mt-1">Per verificare automaticamente le tue statistiche</p>
+                        </div>
+
+                        <!-- Agreement Checkbox -->
+                        <div class="flex items-start">
+                            <input 
+                                type="checkbox" 
+                                id="agreement" 
+                                name="agreement"
+                                data-implementation="Required checkbox for terms"
+                                class="mt-1 h-4 w-4 text-clash-blue focus:ring-clash-blue border-gray-300 rounded"
+                                required
+                            >
+                            <label for="agreement" class="ml-3 text-sm text-gray-700">
+                                Accetto di partecipare alle CWL e di rispettare le regole del clan. 
+                                Mi impegno a completare tutti gli attacchi assegnati.
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button 
+                                type="submit"
+                                data-implementation="Should validate form and save to SQLite database"
+                                class="w-full bg-clash-blue text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-600 focus:ring-4 focus:ring-blue-200 transition-all duration-200"
+                            >
+                                <i class="fas fa-check mr-2"></i>
+                                Registrati alle CWL
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success Message (Hidden by default) -->
+                    <div id="success-message" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <div>
+                                <h3 class="text-green-800 font-semibold">Registrazione Completata!</h3>
+                                <p class="text-green-700 text-sm">Ti sei registrato con successo alle CWL. Controlla la chat del clan per aggiornamenti.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: RegistrationTab -->
+
+        <!-- @COMPONENT: AdminTab -->
+        <div id="admin-tab" class="tab-content hidden">
+            <div class="space-y-8">
+                <!-- Admin Header -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold text-clash-dark">
+                                <i class="fas fa-shield-alt text-clash-blue mr-3"></i>
+                                Pannello Amministratore
+                            </h2>
+                            <p class="text-gray-600 mt-1">Gestisci i player registrati e i contenuti del clan</p>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button data-event="click:exportPlayers" class="bg-clash-green text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fas fa-download mr-2"></i>
+                                Esporta Lista
+                            </button>
+                            <button data-event="click:generateCWLMessage" class="bg-clash-gold text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                                <i class="fas fa-file-pdf mr-2"></i>
+                                Genera PDF CWL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Players List -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow-sm border">
+                            <div class="p-6 border-b">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-xl font-bold text-clash-dark">
+                                        <i class="fas fa-users mr-2 text-clash-blue"></i>
+                                        Player Registrati
+                                    </h3>
+                                    <span class="bg-clash-blue text-white px-3 py-1 rounded-full text-sm font-semibold" data-bind="players.count" data-mock="true">
+                                        28 player
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <!-- Search Bar -->
+                                <div class="mb-6">
+                                    <div class="relative">
+                                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                        <input 
+                                            type="text" 
+                                            placeholder="Cerca player per nome..."
+                                            data-event="input:searchPlayers"
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent"
+                                        >
+                                    </div>
+                                </div>
+
+                                <!-- Players Table -->
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome Player</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Town Hall</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Reg.</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200" data-mock="true">
+                                            <!-- @MAP: players.map(player => ( -->
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500" data-bind="player.id">001</td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-user-circle text-clash-blue mr-3"></i>
+                                                        <span class="text-sm font-medium text-gray-900" data-bind="player.nomePlayer">DragonSlayer</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" data-bind="player.thPlayer">
+                                                        TH 15
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500" data-bind="player.createdAt">01/08/2025</td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <button data-event="click:deletePlayer" class="text-red-600 hover:text-red-900 transition-colors">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">002</td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-user-circle text-clash-blue mr-3"></i>
+                                                        <span class="text-sm font-medium text-gray-900">WarriorKing</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                        TH 14
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">01/08/2025</td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <button data-event="click:deletePlayer" class="text-red-600 hover:text-red-900 transition-colors">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">003</td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-user-circle text-clash-blue mr-3"></i>
+                                                        <span class="text-sm font-medium text-gray-900">IceQueen</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                        TH 13
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">31/07/2025</td>
+                                                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <button data-event="click:deletePlayer" class="text-red-600 hover:text-red-900 transition-colors">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- @END_MAP )) -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Pagination -->
+                                <div class="mt-6 flex items-center justify-between">
+                                    <p class="text-sm text-gray-700">
+                                        Mostrando <span class="font-medium">1</span> - <span class="font-medium">10</span> di <span class="font-medium">28</span> risultati
+                                    </p>
+                                    <div class="flex space-x-2">
+                                        <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50" disabled>
+                                            Precedente
+                                        </button>
+                                        <button class="px-3 py-2 text-sm bg-clash-blue text-white rounded-lg hover:bg-blue-600">
+                                            1
+                                        </button>
+                                        <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                                            2
+                                        </button>
+                                        <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                                            Successivo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Editor -->
+                    <div class="space-y-6">
+                        <!-- Clan Info Editor -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 border">
+                            <h3 class="text-lg font-bold text-clash-dark mb-4">
+                                <i class="fas fa-edit mr-2 text-clash-blue"></i>
+                                Modifica Contenuti
+                            </h3>
+                            
+                            <form data-event="submit:updateClanContent" class="space-y-4">
+                                <!-- Clan Name -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome Clan</label>
+                                    <input 
+                                        type="text" 
+                                        data-bind="content.clanName"
+                                        value="🏰 Guerrieri del Nord"
+                                        data-mock="true"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent"
+                                    >
+                                </div>
+
+                                <!-- Clan Description -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Descrizione</label>
+                                    <textarea 
+                                        rows="3"
+                                        data-bind="content.clanDescription"
+                                        data-mock="true"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent"
+                                    >Clan competitivo italiano specializzato nelle Clan War League. Unisciti a noi per conquistare la gloria!</textarea>
+                                </div>
+
+                                <!-- Rules -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Regole (una per riga)</label>
+                                    <textarea 
+                                        rows="4"
+                                        data-bind="content.clanRules"
+                                        data-mock="true"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-clash-blue focus:border-transparent"
+                                    >Partecipazione obbligatoria alle CWL
+Donazioni minime: 1000 al mese
+Rispetto e comunicazione nel chat clan
+TH12+ per partecipare alle CWL</textarea>
+                                </div>
+
+                                <button 
+                                    type="submit"
+                                    data-implementation="Should update content in database"
+                                    class="w-full bg-clash-blue text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+                                >
+                                    <i class="fas fa-save mr-2"></i>
+                                    Salva Modifiche
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 border">
+                            <h3 class="text-lg font-bold text-clash-dark mb-4">Statistiche Database</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Total Player:</span>
+                                    <span class="font-semibold" data-bind="db.totalPlayers" data-mock="true">28</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Reg. Oggi:</span>
+                                    <span class="font-semibold" data-bind="db.todayRegistrations" data-mock="true">3</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">TH Medio:</span>
+                                    <span class="font-semibold" data-bind="db.avgTownHall" data-mock="true">13.2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Database Actions -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 border">
+                            <h3 class="text-lg font-bold text-clash-dark mb-4">Azioni Database</h3>
+                            <div class="space-y-3">
+                                <button 
+                                    data-event="click:backupDatabase"
+                                    data-implementation="Should create SQLite backup"
+                                    class="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+                                >
+                                    <i class="fas fa-database mr-2"></i>
+                                    Backup Database
+                                </button>
+                                <button 
+                                    data-event="click:clearOldRegistrations"
+                                    data-implementation="Should clear old season data"
+                                    class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
+                                >
+                                    <i class="fas fa-trash mr-2"></i>
+                                    Pulisci Stagione
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AdminTab -->
+
+    </main>
+    <!-- @END_COMPONENT: MainContent -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-clash-dark text-white mt-16">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-clash-gold text-xl mr-3"></i>
+                    <span class="text-lg font-semibold">CWL Manager</span>
+                </div>
+                <div class="text-sm text-gray-400">
+                    Sistema di gestione Clan War League - Clash of Clans
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- @FUNCTIONALITY: Tab switching and basic UI interactions -->
+    <script>
+        (function() {
+            // TODO: Implement database integration with SQLite
+            // TODO: Implement form validation and submission
+            // TODO: Implement real-time updates for player registration
+            // TODO: Implement content editing functionality
+            
+            // Tab switching functionality
+            function switchTab(tabName) {
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+                
+                // Show selected tab
+                const selectedTab = document.getElementById(`${tabName}-tab`);
+                if (selectedTab) {
+                    selectedTab.classList.remove('hidden');
+                }
+                
+                // Update active tab button
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active', 'text-clash-blue', 'border-clash-blue');
+                    btn.classList.add('text-gray-500');
+                });
+                
+                const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-gray-500');
+                    activeBtn.classList.add('active', 'text-clash-blue', 'border-b-2', 'border-clash-blue');
+                }
+            }
+            
+            // Event listeners for tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const tabName = e.currentTarget.dataset.tab;
+                    switchTab(tabName);
+                });
+            });
+            
+            // Form submission handling
+            document.addEventListener('submit', (e) => {
+                if (e.target.dataset.event && e.target.dataset.event.includes('handleRegistration')) {
+                    e.preventDefault();
+                    // TODO: Implement player registration logic
+                    // Should validate form data and save to SQLite database
+                    console.log('Registration form submitted');
+                    
+                    // Show success message
+                    document.getElementById('success-message').classList.remove('hidden');
+                }
+                
+                if (e.target.dataset.event && e.target.dataset.event.includes('updateClanContent')) {
+                    e.preventDefault();
+                    // TODO: Implement content update logic
+                    console.log('Content update submitted');
+                }
+            });
+            
+            // Search functionality
+            document.addEventListener('input', (e) => {
+                if (e.target.dataset.event && e.target.dataset.event.includes('searchPlayers')) {
+                    // TODO: Implement player search filtering
+                    console.log('Searching players:', e.target.value);
+                }
+            });
+            
+            // Button click handlers
+            document.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-event]');
+                if (!target) return;
+                
+                const event = target.dataset.event;
+                
+                if (event.includes('deletePlayer')) {
+                    // TODO: Implement player deletion with confirmation
+                    if (confirm('Sei sicuro di voler eliminare questo player?')) {
+                        console.log('Deleting player');
+                    }
+                }
+                
+                if (event.includes('exportPlayers')) {
+                    // TODO: Implement CSV export functionality
+                    console.log('Exporting players list');
+                }
+                
+                if (event.includes('generateCWLMessage')) {
+                    // TODO: Implement PDF generation for CWL messages
+                    console.log('Generating CWL PDF');
+                }
+                
+                if (event.includes('backupDatabase')) {
+                    // TODO: Implement SQLite backup functionality
+                    console.log('Creating database backup');
+                }
+                
+                if (event.includes('clearOldRegistrations')) {
+                    // TODO: Implement season cleanup
+                    if (confirm('Sei sicuro di voler pulire i dati della stagione precedente?')) {
+                        console.log('Clearing old season data');
+                    }
+                }
+            });
+            
+            // Initialize with home tab active
+            switchTab('home');
+        })();
+    </script>
+</body>
+</html>
